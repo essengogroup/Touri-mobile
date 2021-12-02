@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "988276886372",
+    "project_id": "touritouri-c91f5",
+    "storage_bucket": "touritouri-c91f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988276886372:android:4eb9c4a9eaf292541c4871",
+        "android_client_info": {
+          "package_name": "com.touritouri.trtr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988276886372-8dv37fjpmrl7upa2q33v6rllac3jm7g9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhAp0Bw52mPUuL03M1M5nAJaqoiUufjhs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988276886372-8dv37fjpmrl7upa2q33v6rllac3jm7g9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,5 +2,8 @@
 <resources>
     <dimen name="m8">8dp</dimen>
     <dimen name="m16">16dp</dimen>
+    <dimen name="s50">50dp</dimen>
+    <dimen name="s100">100dp</dimen>
+    <dimen name="s150">150dp</dimen>
     <dimen name="s194">194dp</dimen>
 </resources>

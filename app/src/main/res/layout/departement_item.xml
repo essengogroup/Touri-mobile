@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/s100"
+    android:layout_height="@dimen/s100"
     android:id="@+id/departementCard"
     android:layout_margin="@dimen/m8">
 
@@ -13,7 +13,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/s194"
+            android:layout_height="@dimen/s50"
             android:src="@mipmap/ic_launcher"
             android:id="@+id/departementImage"
             android:scaleType="centerCrop"/>
@@ -21,8 +21,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?textAppearanceBody1"
+            android:textAppearance="?textAppearanceSubtitle2"
             android:text="@string/app_name"
+            android:textAlignment="center"
             android:id="@+id/departementName"
             android:layout_marginBottom="@dimen/m8"
             android:layout_marginTop="@dimen/m8"/>

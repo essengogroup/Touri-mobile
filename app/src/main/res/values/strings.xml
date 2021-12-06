@@ -2,4 +2,27 @@
     <string name="app_name">Touri-Touri</string>
     <string name="les_sites">les Sites</string>
     <string name="les_departements">les departements</string>
+    <string name="titre">titre</string>
+    <string name="departement">departement</string>
+    <string name="petite_description">petite description</string>
+    <string name="visiter">Visiter</string>
+    <string name="partager">Partager</string>
+    <string name="prix">prix</string>
+    <string name="etoile">etoile</string>
+    <string name="voir">voir tout nos sites</string>
+    <string name="propos">à propos</string>
+    <string name="reserver">reserver</string>
+    <string name="reservation">Reservation</string>
+    <string name="nom">Nom</string>
+    <string name="prenom">Prénom</string>
+    <string name="email">Email</string>
+    <string name="numero_de_telephone">Numéro de télephone</string>
+    <string name="adresse">Adresse</string>
+    <string name="je_reserve">je réserve</string>
+    <string name="_2020">© 2020</string>
+    <string name="description">Description</string>
+    <string name="a_propos_du_site">A propos du site</string>
+    <string name="a_savoir">A savoir</string>
+    <string name="date_de_visite">Date des prochaines visites</string>
+    <string name="champ_requis">ce champ est requis</string>
 </resources>

@@ -19,9 +19,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical"
         android:padding="@dimen/m8"
+        android:fillViewport="true"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topAppBar">
@@ -44,17 +46,40 @@
                 android:id="@+id/recDepartement"
                 android:layout_marginBottom="@dimen/m16"/>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/m8"
-                android:textAppearance="?textAppearanceHeadline6"
-                android:text="@string/les_sites"/>
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/m8"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    android:text="@string/les_sites"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="@dimen/s150"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="end"
+                    android:text="@string/voir"
+                    android:id="@+id/allSiteBtn"
+                    android:textAppearance="?textAppearanceBody2"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@color/browser_actions_bg_grey"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recSites"/>
+                android:id="@+id/recSites"
+                android:layout_marginBottom="@dimen/m8"/>
 
         </LinearLayout>
 

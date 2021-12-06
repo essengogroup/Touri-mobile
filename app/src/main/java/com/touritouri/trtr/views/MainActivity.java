@@ -20,6 +20,6 @@ public class MainActivity extends AppCompatActivity {
         mHandler.postDelayed(() -> {
             startActivity(new Intent(this,AccueilActivity.class));
             finish();
-        }, 20000);
+        }, 2000);
     }
 }

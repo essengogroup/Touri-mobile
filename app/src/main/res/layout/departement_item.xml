@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/s100"
     android:layout_height="@dimen/s100"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/departementCard"
+    app:cardCornerRadius="@dimen/m8"
     android:layout_margin="@dimen/m8">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/s50"
+            android:layout_height="match_parent"
             android:src="@mipmap/ic_launcher"
             android:id="@+id/departementImage"
             android:scaleType="centerCrop"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/trans"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?textAppearanceSubtitle2"
+            android:textAppearance="?textAppearanceBody2"
             android:text="@string/app_name"
+            android:textColor="@color/white"
             android:textAlignment="center"
+            android:layout_alignParentBottom="true"
             android:id="@+id/departementName"
             android:layout_marginBottom="@dimen/m8"
             android:layout_marginTop="@dimen/m8"/>
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Touri-Touri</string>
-    <string name="les_sites">les Sites</string>
-    <string name="les_departements">les departements</string>
+    <string name="les_sites">Sites touristiques</string>
+    <string name="les_departements">Régions</string>
     <string name="titre">titre</string>
     <string name="departement">departement</string>
     <string name="petite_description">petite description</string>
@@ -9,7 +9,7 @@
     <string name="partager">Partager</string>
     <string name="prix">prix</string>
     <string name="etoile">etoile</string>
-    <string name="voir">voir tout nos sites</string>
+    <string name="voir">Tout voir</string>
     <string name="propos">à propos</string>
     <string name="reserver">reserver</string>
     <string name="reservation">Reservation</string>
@@ -25,4 +25,6 @@
     <string name="a_savoir">A savoir</string>
     <string name="date_de_visite">Date des prochaines visites</string>
     <string name="champ_requis">ce champ est requis</string>
+    <string name="politique_de_confidentialite">Politique de confidentialité.</string>
+    <string name="confidentialite">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
 </resources>

@@ -8,7 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +37,10 @@ public class AllSiteActivity extends AppCompatActivity {
     private final String collectionSitePath = "sites";
     private List<Site> sites;
 
+    private LinearLayout relaDepartement;
+    private ImageView departementImage;
+    private TextView departementName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,19 +60,34 @@ public class AllSiteActivity extends AppCompatActivity {
         }
 
         recyclerViewSites = findViewById(R.id.recAllSite);
+        relaDepartement = findViewById(R.id.relaDepartement);
+        departementImage = findViewById(R.id.departementImage);
+        departementName = findViewById(R.id.departementName);
 
         firestore = FirebaseFirestore.getInstance();
 
         String filter = "";
 
         if (getIntent() != null ){
-             Departement departement = getIntent().getParcelableExtra("departement");
-             filter = departement.getName();
+            Departement departement = getIntent().getParcelableExtra("departement");
+            filter = departement.getName();
+
+            if (!departement.getName().equals("")){
+                relaDepartement.setVisibility(View.VISIBLE);
+
+                Glide.with(AllSiteActivity.this)
+                        .load(departement.getImage())
+                        .centerCrop()
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(departementImage);
+
+                departementName.setText(departement.getName());
+            }
+
         }else {
             filter ="";
         }
         getSiteData(filter);
-
     }
 
     private void getSiteData(String filter){
@@ -88,6 +112,7 @@ public class AllSiteActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             Site site = new Site();
 
+
                             site.setConsign(document.getString("consign"));
                             site.setUid(document.getId());
                             site.setName(document.getString("name"));
@@ -97,6 +122,7 @@ public class AllSiteActivity extends AppCompatActivity {
                             site.setDescription(document.getString("description"));
                             site.setPrice(Integer.parseInt(String.valueOf(document.getLong("price"))));
                             site.setStars(Integer.parseInt(String.valueOf(document.getLong("stars"))));
+                            site.setVisite(Integer.parseInt(String.valueOf(document.getLong("visite"))));
 
                             sites.add(site);
 

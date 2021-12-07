@@ -3,6 +3,7 @@ package com.touritouri.trtr.controllers.site;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     protected ImageView imageSite;
     protected TextView titreSite, departementSite,descriptionSite,priceSite,starSite;
     protected MaterialButton buttonVisiter;
+    protected RatingBar siteRating;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -29,5 +31,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         departementSite = itemView.findViewById(R.id.departementSite);
         descriptionSite = itemView.findViewById(R.id.descriptionSite);
         buttonVisiter = itemView.findViewById(R.id.visiterSiteBtn);
+        siteRating = itemView.findViewById(R.id.siteRating);
     }
 }

@@ -40,8 +40,10 @@ public class SiteAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.titreSite.setText(site.getName());
         holder.descriptionSite.setText(site.getDescription());
         holder.departementSite.setText(site.getDepartement());
-        holder.priceSite.setText(site.getPrice()+" FCFA");
-        holder.starSite.setText(String.valueOf(site.getStars()));
+        holder.priceSite.setText(site.getPrice()+" XAF");
+        holder.starSite.setText(String.valueOf(site.getVisite()));
+
+        holder.siteRating.setRating((float) site.getStars());
 
         Glide.with(context)
                 .load(site.getImage())

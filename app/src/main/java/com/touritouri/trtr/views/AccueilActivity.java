@@ -1,11 +1,13 @@
 package com.touritouri.trtr.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +35,7 @@ import java.util.List;
 
 public class AccueilActivity extends AppCompatActivity {
     private RecyclerView recyclerViewDepartements , recyclerViewSites;
-
+    private SearchView searchView;
 
     private FirebaseFirestore firestore;
     private CollectionReference reference;
@@ -52,6 +54,7 @@ public class AccueilActivity extends AppCompatActivity {
 
         recyclerViewDepartements = findViewById(R.id.recDepartement);
         recyclerViewSites = findViewById(R.id.recSites);
+        searchView = findViewById(R.id.searchSite);
 
         firestore = FirebaseFirestore.getInstance();
 
@@ -97,7 +100,6 @@ public class AccueilActivity extends AppCompatActivity {
 
     }
 
-
     private void getSiteData(){
         reference= firestore.collection(collectionSitePath);
         sites = new ArrayList<>();
@@ -124,6 +126,7 @@ public class AccueilActivity extends AppCompatActivity {
                             site.setDescription(document.getString("description"));
                             site.setPrice(Integer.parseInt(String.valueOf(document.getLong("price"))));
                             site.setStars(Integer.parseInt(String.valueOf(document.getLong("stars"))));
+                            site.setVisite(Integer.parseInt(String.valueOf(document.getLong("visite"))));
 
                             sites.add(site);
 

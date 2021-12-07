@@ -13,7 +13,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,11 +29,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.touritouri.trtr.R;
 import com.touritouri.trtr.models.Site;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,13 +47,17 @@ public class ReservationActivity extends AppCompatActivity {
     private TextInputEditText firstName, name , email, phone, address;
     private Button reservationBtn;
     private ChipGroup chipsPrograms;
+    private Chip mChip;
 
     private FirebaseFirestore firestore;
-    private DocumentReference reference;
+    private CollectionReference reference;
     private String collectionRefPath="reservations";
 
     private Site site;
-    private ProgressDialog dialog;
+    private ProgressDialog loadingDialog;
+    private List<String> mDate_visites=new ArrayList<>();
+    private StringBuffer currentDate =new StringBuffer();
+    private CheckBox checkBox ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +87,12 @@ public class ReservationActivity extends AppCompatActivity {
         phone = findViewById(R.id.resPhone);
         address = findViewById(R.id.resQuartier);
         chipsPrograms = findViewById(R.id.chipsPrograms);
-
         reservationBtn = findViewById(R.id.reservationBtn);
+        checkBox = findViewById(R.id.confidentialite);
 
-        dialog = new ProgressDialog(ReservationActivity.this);
-        dialog.setMessage("Réservation en cours ...");
-        dialog.setCancelable(false);
-
-        reservationBtn.setOnClickListener(v -> {
-            sendReservation();
-        });
+        loadingDialog = new ProgressDialog(ReservationActivity.this);
+        loadingDialog.setMessage("Réservation en cours ...");
+        loadingDialog.setCancelable(false);
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
@@ -98,13 +100,33 @@ public class ReservationActivity extends AppCompatActivity {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        Log.d("TAG", "onCreate: "+day+"/"+month+"/"+year);
 
-        getDateVisite(day,month,year,site.getUid());
+        currentDate.append(day);
+        currentDate.append("/");
+        currentDate.append(month);
+        currentDate.append("/");
+        currentDate.append(year);
+
+        Log.d("TAG", "onCreate: "+currentDate.toString());
+
+
+        getAllDateVisite(day,month,year,site.getUid());
+
+        checkBox.setOnClickListener(v->dialogConfidentialite());
+
+        reservationBtn.setOnClickListener(v -> {
+            boolean checkValue = checkBox.isChecked();
+            if (checkValue){
+                sendReservation(String.valueOf(year));
+            }else{
+                Toast.makeText(ReservationActivity.this, "veuillez accepter", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
-    public void sendReservation(){
+    public void sendReservation(String year){
+
         String firstNameValue = firstName.getText().toString().trim().toLowerCase();
         String nameValue = name.getText().toString().trim().toLowerCase();
         String phoneValue = phone.getText().toString().trim().toLowerCase();
@@ -135,7 +157,8 @@ public class ReservationActivity extends AppCompatActivity {
             return;
         }
 
-        dialog.show();
+
+        loadingDialog.show();
 
         Map<String,Object> data = new HashMap<>();
         data.put("site_id",site.getUid());
@@ -144,13 +167,13 @@ public class ReservationActivity extends AppCompatActivity {
         data.put("email",emailValue);
         data.put("phone",phoneValue);
         data.put("address",quartierValue);
+        data.put("date_visites",mDate_visites);
 
-        reference = firestore.collection(collectionRefPath).document(phoneValue);
-        reference.set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+        reference = firestore.collection(collectionRefPath).document(phoneValue).collection(year);
+        reference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(Void unused) {
-
-                dialog.dismiss();
+            public void onSuccess(DocumentReference documentReference) {
+                loadingDialog.dismiss();
 
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ReservationActivity.this);
 
@@ -169,14 +192,11 @@ public class ReservationActivity extends AppCompatActivity {
         });
     }
 
-    public void getDateVisite(int day , int month, int year,String site_id){
+    public void getAllDateVisite(int day , int month, int year,String site_id){
         //visites/12/2021/ ATFjp5DmpTMUUqiB6t1n
+        //DocumentReference reference = firestore.document("/visites/11/2021/ ATFjp5DmpTMUUqiB6t1n");
 
-        DocumentReference reference = firestore
-                .collection("visites")
-                .document(String.valueOf(month))
-                .collection(String.valueOf(year))
-                .document(site_id);
+        DocumentReference reference = firestore.document("/visites/"+month+"/"+year+"/ "+ site_id);
 
         reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -185,6 +205,7 @@ public class ReservationActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("TAG", "DocumentSnapshot data: " + document.getData());
+
                         setCategoryChips((List<String>) document.get("date_visite"));
                     } else {
                         Log.d("TAG", "No such document");
@@ -198,21 +219,76 @@ public class ReservationActivity extends AppCompatActivity {
 
     public void setCategoryChips(List<String> date_visite) {
         for (String category : date_visite) {
-            Chip mChip = (Chip) this.getLayoutInflater().inflate(R.layout.item_chip_category, null, false);
-            mChip.setText(category);
-            int paddingDp = (int) TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 10,
-                    getResources().getDisplayMetrics()
-            );
-            mChip.setPadding(paddingDp, 0, paddingDp, 0);
-            mChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Log.d("TAG", "onCheckedChanged: "+compoundButton.isChecked() +"\n"+compoundButton.getText());
-                }
-            });
-            chipsPrograms.addView(mChip);
+
+            if (compareToDay(currentDate.toString(),category) <= 0) {
+                Log.i("app", "Date1 is before Date2 or Date1 is equal to Date2");
+
+                mChip = (Chip) this.getLayoutInflater().inflate(R.layout.item_chip_category, null, false);
+                mChip.setText(category);
+                int paddingDp = (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, 10,
+                        getResources().getDisplayMetrics()
+                );
+                mChip.setPadding(paddingDp, 0, paddingDp, 0);
+                mChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                        Log.d("TAG", "onCheckedChanged: " + compoundButton.isChecked());
+
+                        if (!compoundButton.isChecked()) {
+                            compoundButton.setTextColor(getResources().getColor(R.color.black));
+                            if (mDate_visites.contains(compoundButton.getText().toString())) {
+                                mDate_visites.remove(compoundButton.getText().toString());
+                            }
+                        } else {
+                            compoundButton.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                            mDate_visites.add(compoundButton.getText().toString());
+                        }
+
+                        for (String s : mDate_visites) {
+                            Log.d("TAG", "setCategoryChips: " + s);
+                        }
+                    }
+                });
+                chipsPrograms.addView(mChip);
+            }
+
+
         }
+    }
+
+    public int compareToDay(String sDate1, String sDate2) {
+        if (sDate1 == null || sDate2 == null) {
+            return 0;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1= null;
+        Date date2= null;
+
+        try {
+            date1 = sdf.parse(sDate1);
+            date2=sdf.parse(sDate2);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return sdf.format(date1).compareTo(sdf.format(date2));
+    }
+
+    public void dialogConfidentialite(){
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(ReservationActivity.this);
+        builder.setTitle("Politique de confidentialité");
+        builder.setMessage(getResources().getString(R.string.confidentialite));
+        builder.setPositiveButton("j'ai compris", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     @Override

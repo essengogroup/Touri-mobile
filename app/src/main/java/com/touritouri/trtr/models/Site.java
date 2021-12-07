@@ -15,12 +15,13 @@ public class Site implements Parcelable {
     private String name;
     private int price;
     private int stars;
+    private int visite;
     private String uid;
 
     public Site() {
     }
 
-    public Site(String consign, String departement, String departement_id, String description, List<String> galery, String image, String name, int price, int stars) {
+    public Site(String consign, String departement, String departement_id, String description, List<String> galery, String image, String name, int price, int stars,int visite) {
         this.consign = consign;
         this.departement = departement;
         this.departement_id = departement_id;
@@ -30,6 +31,7 @@ public class Site implements Parcelable {
         this.name = name;
         this.price = price;
         this.stars = stars;
+        this.visite = visite;
     }
 
     protected Site(Parcel in) {
@@ -42,6 +44,7 @@ public class Site implements Parcelable {
         name = in.readString();
         price = in.readInt();
         stars = in.readInt();
+        visite = in.readInt();
         uid = in.readString();
     }
 
@@ -73,6 +76,7 @@ public class Site implements Parcelable {
         dest.writeString(name);
         dest.writeInt(price);
         dest.writeInt(stars);
+        dest.writeInt(visite);
         dest.writeString(uid);
     }
 
@@ -154,5 +158,13 @@ public class Site implements Parcelable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public int getVisite() {
+        return visite;
+    }
+
+    public void setVisite(int visite) {
+        this.visite = visite;
     }
 }

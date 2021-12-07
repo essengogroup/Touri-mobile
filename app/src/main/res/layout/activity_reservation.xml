@@ -135,6 +135,13 @@
 
            </com.google.android.material.chip.ChipGroup>
 
+           <CheckBox
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="@dimen/m8"
+               android:id="@+id/confidentialite"
+               android:textAppearance="?android:textAppearanceSmall"
+               android:text="@string/politique_de_confidentialite"/>
            <Button
                android:id="@+id/reservationBtn"
                android:layout_width="match_parent"

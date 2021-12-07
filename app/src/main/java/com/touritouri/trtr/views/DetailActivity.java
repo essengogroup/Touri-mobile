@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +25,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView siteDescription, siteDepartement, siteStar,sitePrice,siteConsigne;
     private ViewPager mViewPager;
     private ViewPagerAdapter mViewPagerAdapter;
+    private RatingBar siteRating;
 
     private Site site;
     private List<String> galery = new ArrayList<>();
@@ -53,13 +55,15 @@ public class DetailActivity extends AppCompatActivity {
         sitePrice = findViewById(R.id.priceSite);
         siteStar = findViewById(R.id.starSite);
         siteConsigne = findViewById(R.id.siteConsigne);
+        siteRating = findViewById(R.id.siteRating);
 
         galery = site.getGalery();
         siteDescription.setText(site.getDescription());
-        siteStar.setText(String.valueOf(site.getStars()));
+        siteStar.setText(String.valueOf(site.getVisite()));
         siteDepartement.setText(site.getDepartement());
         siteConsigne.setText(site.getConsign());
         sitePrice.setText(String.valueOf(site.getPrice())+" XAF");
+        siteRating.setRating((float) site.getStars());
 
         mViewPagerAdapter = new ViewPagerAdapter(DetailActivity.this, galery);
         mViewPager.setAdapter(mViewPagerAdapter);

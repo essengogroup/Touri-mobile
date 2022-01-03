@@ -44,7 +44,7 @@ import java.util.TimeZone;
 
 public class ReservationActivity extends AppCompatActivity {
 
-    private TextInputEditText firstName, name , email, phone, address;
+    private TextInputEditText firstName, name , email, phone, address,nbreDePersonne,dateViste;
     private Button reservationBtn;
     private ChipGroup chipsPrograms;
     private Chip mChip;
@@ -88,6 +88,8 @@ public class ReservationActivity extends AppCompatActivity {
         address = findViewById(R.id.resQuartier);
         chipsPrograms = findViewById(R.id.chipsPrograms);
         reservationBtn = findViewById(R.id.reservationBtn);
+        nbreDePersonne = findViewById(R.id.nbreDePersonne);
+        dateViste = findViewById(R.id.resDate);
         checkBox = findViewById(R.id.confidentialite);
 
         loadingDialog = new ProgressDialog(ReservationActivity.this);
@@ -115,6 +117,7 @@ public class ReservationActivity extends AppCompatActivity {
         checkBox.setOnClickListener(v->dialogConfidentialite());
 
         reservationBtn.setOnClickListener(v -> {
+            Log.d("TAG", "onCreate: "+dateViste.getText().toString().trim().toLowerCase());
             boolean checkValue = checkBox.isChecked();
             if (checkValue){
                 sendReservation(String.valueOf(year));
@@ -132,6 +135,8 @@ public class ReservationActivity extends AppCompatActivity {
         String phoneValue = phone.getText().toString().trim().toLowerCase();
         String quartierValue = address.getText().toString().trim().toLowerCase();
         String emailValue = email.getText().toString().trim().toLowerCase();
+        String nbreDePersonneValue = nbreDePersonne.getText().toString().trim().toLowerCase();
+        String dateValue = dateViste.getText().toString().trim().toLowerCase();
 
         if( TextUtils.isEmpty(firstNameValue)){
             firstName.setError("ce champ est obligatoire");
@@ -157,8 +162,22 @@ public class ReservationActivity extends AppCompatActivity {
             return;
         }
 
+        if( TextUtils.isEmpty(nbreDePersonneValue)){
+            nbreDePersonne.setError("ce champ est obligatoire");
+            nbreDePersonne.requestFocus();
+            return;
+        }
+
+
+        if (!TextUtils.isEmpty(dateValue)){
+
+            mDate_visites.add(dateValue);
+        }
+
 
         loadingDialog.show();
+
+        Log.d("TAG", "sendReservation: "+mDate_visites.size());
 
         Map<String,Object> data = new HashMap<>();
         data.put("site_id",site.getUid());
@@ -167,6 +186,7 @@ public class ReservationActivity extends AppCompatActivity {
         data.put("email",emailValue);
         data.put("phone",phoneValue);
         data.put("address",quartierValue);
+        data.put("nbreDePersonne",nbreDePersonneValue);
         data.put("date_visites",mDate_visites);
 
         reference = firestore.collection(collectionRefPath).document(phoneValue).collection(year);

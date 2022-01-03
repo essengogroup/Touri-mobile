@@ -14,7 +14,8 @@
         <!-- Media -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/s150">
+            android:layout_height="@dimen/s150"
+            android:elevation="@dimen/m4">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -22,10 +23,11 @@
                 android:src="@mipmap/ic_launcher"
                 android:scaleType="centerCrop"
                 android:id="@+id/imageSite"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/trans"/>
+                android:background="@color/trans" />
 
             <RatingBar
                 android:id="@+id/siteRating"
@@ -76,6 +78,7 @@
                         android:maxLines="1"
                         android:textStyle="bold"
                         android:layout_weight="1"
+                        android:textAlignment="center"
                         android:layout_gravity="center"
                         android:id="@+id/priceSite"
                         android:textAppearance="?attr/textAppearanceBody1" />
@@ -85,6 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/m8"
+                        android:visibility="gone"
                         android:layout_gravity="center">
 
                         <TextView
@@ -149,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/partager"
+                android:visibility="gone"
                 style="?attr/borderlessButtonStyle" />
 
         </LinearLayout>

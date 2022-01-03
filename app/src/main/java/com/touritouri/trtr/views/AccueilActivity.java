@@ -1,18 +1,16 @@
 package com.touritouri.trtr.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.SearchView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -28,8 +26,6 @@ import com.touritouri.trtr.models.Departement;
 import com.touritouri.trtr.models.Site;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -67,6 +63,21 @@ public class AccueilActivity extends AppCompatActivity {
                     new Intent(AccueilActivity.this,AllSiteActivity.class)
                             .putExtra("departement",new Departement("","",""))
             );
+        });
+
+        searchView.setIconifiedByDefault(false);
+        searchView.setIconified(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                startActivity(new Intent(AccueilActivity.this, AllSiteActivity.class).putExtra("query",query));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
 
     }
@@ -122,6 +133,7 @@ public class AccueilActivity extends AppCompatActivity {
                             site.setName(document.getString("name"));
                             site.setImage(document.getString("image"));
                             site.setGalery((List<String>) document.get("galery"));
+                            site.setAvantages((List<String>) document.get("avantages"));
                             site.setDepartement(document.getString("departement"));
                             site.setDescription(document.getString("description"));
                             site.setPrice(Integer.parseInt(String.valueOf(document.getLong("price"))));

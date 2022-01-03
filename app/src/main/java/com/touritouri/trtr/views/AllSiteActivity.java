@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -67,8 +68,32 @@ public class AllSiteActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
 
         String filter = "";
+        String queryWord = "";
 
-        if (getIntent() != null ){
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle!=null && !TextUtils.isEmpty(bundle.getString("query"))){
+            queryWord =bundle.getString("query");
+        }
+
+        if (bundle!=null && bundle.getParcelable("departement")!=null){
+            Departement departement = bundle.getParcelable("departement");
+            filter = departement.getName();
+
+            if (!departement.getName().equals("")){
+                relaDepartement.setVisibility(View.VISIBLE);
+
+                Glide.with(AllSiteActivity.this)
+                        .load(departement.getImage())
+                        .centerCrop()
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(departementImage);
+
+                departementName.setText(departement.getName());
+            }
+        }
+
+        /*if (getIntent() != null ){
             Departement departement = getIntent().getParcelableExtra("departement");
             filter = departement.getName();
 
@@ -84,19 +109,26 @@ public class AllSiteActivity extends AppCompatActivity {
                 departementName.setText(departement.getName());
             }
 
-        }else {
+        } else {
             filter ="";
-        }
-        getSiteData(filter);
+        }*/
+
+
+        getSiteData(filter,queryWord);
     }
 
-    private void getSiteData(String filter){
+    private void getSiteData(String filter,String queryWord){
         Query query = null;
+        Log.d("TAG", "getSiteData: "+filter + " - "+queryWord);
         reference= firestore.collection(collectionSitePath);
-        if (TextUtils.isEmpty(filter)){
-            query = reference.orderBy("name", Query.Direction.DESCENDING);
+        if (!TextUtils.isEmpty(queryWord)){
+            query = reference.whereEqualTo("name",queryWord);
         }else {
-            query = reference.whereEqualTo("departement",filter).orderBy("name", Query.Direction.DESCENDING);
+            if (TextUtils.isEmpty(filter)){
+                query = reference.orderBy("name", Query.Direction.DESCENDING);
+            }else {
+                query = reference.whereEqualTo("departement",filter).orderBy("name", Query.Direction.DESCENDING);
+            }
         }
 
         sites = new ArrayList<>();
@@ -118,6 +150,7 @@ public class AllSiteActivity extends AppCompatActivity {
                             site.setName(document.getString("name"));
                             site.setImage(document.getString("image"));
                             site.setGalery((List<String>) document.get("galery"));
+                            site.setAvantages((List<String>) document.get("avantages"));
                             site.setDepartement(document.getString("departement"));
                             site.setDescription(document.getString("description"));
                             site.setPrice(Integer.parseInt(String.valueOf(document.getLong("price"))));
@@ -131,6 +164,10 @@ public class AllSiteActivity extends AppCompatActivity {
 
                         SiteAdapter adapter = new SiteAdapter(AllSiteActivity.this, sites );
                         recyclerViewSites.setAdapter(adapter);
+
+                        if (sites.isEmpty() || sites.size()<0){
+                            findViewById(R.id.notFound).setVisibility(View.VISIBLE);
+                        }
                     }
                 });
 

@@ -115,6 +115,24 @@
                    android:maxLines="1"/>
            </com.google.android.material.textfield.TextInputLayout>
 
+           <com.google.android.material.textfield.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:hint="@string/nombre_de_personne"
+               app:helperTextEnabled="true"
+               app:helperText="@string/champ_requis"
+               android:layout_marginBottom="@dimen/m8">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/nbreDePersonne"
+                   android:inputType="number"
+                   android:maxLines="1"/>
+           </com.google.android.material.textfield.TextInputLayout>
+
+
            <TextView
                android:id="@+id/textView"
                android:layout_width="match_parent"
@@ -134,6 +152,22 @@
                app:singleSelection="false">
 
            </com.google.android.material.chip.ChipGroup>
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+               android:hint="@string/propos_votre_date_de_visite"
+               app:helperTextEnabled="true"
+               app:helperText="format de date : jj/MM/AAAA"
+               app:helperTextTextAppearance="?android:textAppearanceSmall"
+               android:layout_marginBottom="@dimen/m8">
+               <com.google.android.material.textfield.TextInputEditText
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:inputType="date"
+                   android:id="@+id/resDate"/>
+           </com.google.android.material.textfield.TextInputLayout>
 
            <CheckBox
                android:layout_width="wrap_content"

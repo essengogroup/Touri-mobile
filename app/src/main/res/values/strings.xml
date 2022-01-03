@@ -27,4 +27,8 @@
     <string name="champ_requis">ce champ est requis</string>
     <string name="politique_de_confidentialite">Politique de confidentialité.</string>
     <string name="confidentialite">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="nombre_de_personne">Nombre de personne</string>
+    <string name="a_votre_disposition">A votre disposition</string>
+    <string name="propos_votre_date_de_visite">Proposé votre date de visite</string>
+    <string name="aucun_r_sultat_trouv">Aucun résultat trouvé</string>
 </resources>

@@ -11,6 +11,7 @@ public class Site implements Parcelable {
     private String departement_id;
     private String description;
     private List<String> galery;
+    private List<String> avantages;
     private String image;
     private String name;
     private int price;
@@ -21,12 +22,13 @@ public class Site implements Parcelable {
     public Site() {
     }
 
-    public Site(String consign, String departement, String departement_id, String description, List<String> galery, String image, String name, int price, int stars,int visite) {
+    public Site(String consign, String departement, String departement_id, String description, List<String> galery,List<String> avantages, String image, String name, int price, int stars,int visite) {
         this.consign = consign;
         this.departement = departement;
         this.departement_id = departement_id;
         this.description = description;
         this.galery = galery;
+        this.avantages = avantages;
         this.image = image;
         this.name = name;
         this.price = price;
@@ -40,6 +42,7 @@ public class Site implements Parcelable {
         departement_id = in.readString();
         description = in.readString();
         galery = in.createStringArrayList();
+        avantages = in.createStringArrayList();
         image = in.readString();
         name = in.readString();
         price = in.readInt();
@@ -72,6 +75,7 @@ public class Site implements Parcelable {
         dest.writeString(departement_id);
         dest.writeString(description);
         dest.writeStringList(galery);
+        dest.writeStringList(avantages);
         dest.writeString(image);
         dest.writeString(name);
         dest.writeInt(price);
@@ -166,5 +170,13 @@ public class Site implements Parcelable {
 
     public void setVisite(int visite) {
         this.visite = visite;
+    }
+
+    public List<String> getAvantages() {
+        return avantages;
+    }
+
+    public void setAvantages(List<String> avantages) {
+        this.avantages = avantages;
     }
 }

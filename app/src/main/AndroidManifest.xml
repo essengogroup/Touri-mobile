@@ -12,19 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrTr">
         <activity
+            android:name=".views.AvantageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".views.AboutActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".views.AccueilActivity"/>
+            android:parentActivityName=".views.AccueilActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".views.AllSiteActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".views.AccueilActivity" />
+            android:parentActivityName=".views.AccueilActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".views.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".views.ProfileActivity"
             android:exported="true"
@@ -32,7 +36,7 @@
         <activity
             android:name=".views.ReservationActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".views.DetailActivity"
             android:exported="true"

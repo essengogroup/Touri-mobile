@@ -189,7 +189,7 @@ public class ReservationActivity extends AppCompatActivity {
         data.put("nbreDePersonne",nbreDePersonneValue);
         data.put("date_visites",mDate_visites);
 
-        reference = firestore.collection(collectionRefPath).document(phoneValue).collection(year);
+        reference = firestore.collection(collectionRefPath).document(site.getUid()).collection(year);
         reference.add(data).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

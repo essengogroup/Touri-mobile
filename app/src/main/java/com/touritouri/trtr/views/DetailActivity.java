@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DetailActivity extends AppCompatActivity {
-    private TextView siteDescription, siteDepartement, siteStar,sitePrice,siteConsigne;
+    private TextView siteDescription, siteDepartement, siteStar,sitePrice,siteConsigne,siteTitle;
     private ViewPager mViewPager;
     private ViewPagerAdapter mViewPagerAdapter;
     private RatingBar siteRating;
@@ -58,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
-            actionBar.setTitle(site.getName());
+            actionBar.setTitle("");
         }
 
         siteDescription = findViewById(R.id.siteDescription);
@@ -68,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         siteStar = findViewById(R.id.starSite);
         siteConsigne = findViewById(R.id.siteConsigne);
         siteRating = findViewById(R.id.siteRating);
+        siteTitle = findViewById(R.id.siteTitle);
         chipsPrograms = findViewById(R.id.chipsPrograms);
 
         galery = site.getGalery();
@@ -78,6 +80,7 @@ public class DetailActivity extends AppCompatActivity {
         siteConsigne.setText(site.getConsign());
         sitePrice.setText(String.valueOf(site.getPrice())+" XAF");
         siteRating.setRating((float) site.getStars());
+        siteTitle.setText(site.getName());
 
         if (!avantages.isEmpty()){
             setCategoryChips(avantages);
@@ -109,10 +112,10 @@ public class DetailActivity extends AppCompatActivity {
 
     public void setCategoryChips(List<String> date_visite) {
         for (String category : date_visite) {
-            mChip = (Chip) this.getLayoutInflater().inflate(R.layout.item_chip_category, null, false);
+            mChip = (Chip) this.getLayoutInflater().inflate(R.layout.item_chip_detail, null, false);
             mChip.setText(category);
             mChip.setChipIcon(getResources().getDrawable(getIcon(category)));
-            mChip.setClickable(false);
+            mChip.setClickable(true);
 
             int paddingDp = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 10,
@@ -126,9 +129,18 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d("TAG", "onCheckedChanged: " + compoundButton.isChecked());
                 }
             });
+
+            mChip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(DetailActivity.this,AvantageActivity.class)
+                            .putExtra("query",category).putExtra("site_id",site.getUid()));
+                }
+            });
             chipsPrograms.addView(mChip);
 
         }
+
     }
 
     private int getIcon(String category){
